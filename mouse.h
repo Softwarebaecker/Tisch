@@ -5,19 +5,21 @@
 
 #include "X11/Xlib.h"
 #include "X11/Xutil.h"
+#include <X11/Xlib.h>
+#include <X11/extensions/XTest.h>
+#include <X11/extensions/XTest.h>
+#include <stdio.h>
 
 class CMouse
 {
 private:
-    QCursor m_Cursor;
     Display* m_display;
-    XEvent m_event;
-
+    int m_button;
 public:
     CMouse();
     ~CMouse();
     void setPosition(cv::Point2f);
-    void clickLeft();
+    void click(int);
     void releaseClick();
 
 };

@@ -165,6 +165,11 @@ cv::Point2f CTracking::get_m_CoordinateMoment(int pos)
     return m_CoordinateMoment.at(pos);
 }
 
+int CTracking::get_m_CoordinateMoment_number()
+{
+    return m_CoordinateMoment.size();
+}
+
 CProperties* CTracking::get_m_Properties()
 {
     return &m_Properties;

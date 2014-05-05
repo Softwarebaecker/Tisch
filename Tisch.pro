@@ -19,7 +19,11 @@ SOURCES += main.cpp\
     Properties.cpp \
     calibrationwindow.cpp \
     mouse.cpp \
-    simulationswindow.cpp
+    simulationswindow.cpp \
+    paintwindow.cpp \
+    ball.cpp \
+    pannel.cpp \
+    pongwindow.cpp
 
 HEADERS  += mainwindow.h \
     propertieswindow.h \
@@ -27,12 +31,18 @@ HEADERS  += mainwindow.h \
     Properties.h \
     calibrationwindow.h \
     mouse.h \
-    simulationswindow.h
+    simulationswindow.h \
+    paintwindow.h \
+    ball.h \
+    pannel.h \
+    pongwindow.h
 
 FORMS    += mainwindow.ui \
     propertieswindow.ui \
     calibrationwindow.ui \
-    simulationswindow.ui
+    simulationswindow.ui \
+    paintwindow.ui \
+    pongwindow.ui
 
 
 
@@ -40,8 +50,11 @@ LIBS +=     -lopencv_core\
             -lopencv_highgui\
             -lopencv_imgproc\
             -lopencv_video\
+            -lXtst -lX11
 
-CONFIG += link_pkgconfig
+CONFIG += link_pkgconfig\
+           debug c++11
+
 PKGCONFIG += x11
 
 OTHER_FILES +=

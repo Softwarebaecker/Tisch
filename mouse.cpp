@@ -18,49 +18,58 @@ CMouse::~CMouse()
 
 void CMouse::setPosition(cv::Point2f coordinates)
 {
-    m_Cursor.setPos(coordinates.x, coordinates.y);    //setzt den Mauszeiger auf die Koordinaten
-
+    XTestFakeMotionEvent(m_display, DefaultScreen(m_display),coordinates.x, coordinates.y, 0);
+    XFlush(m_display);
 }
 
-void CMouse::clickLeft()
+void CMouse::click(int button)
 {
+    m_button = button;
 
-    memset(&m_event, 0x00, sizeof(m_event));    //überschreibt alles mit 0
+    //Button1 = Linksklick ; Button2 = Mittlere Taste ; Butten3 = Rechtsklick ; Button4 = Srollen nach oben ; Button5 = Scrollen nach unten
 
-    //Eventeigenschaften
-    m_event.type = ButtonPress;
-    m_event.xbutton.button = Button1; //Button1 = Linksklick ; Button2 = Mittlere Taste ; Butten3 = Rechtsklick
-    m_event.xbutton.same_screen = True;
-    //Eventeigenschaften
-
-    //setzt den Zeiger auf das oberste Fenster
-    XQueryPointer(m_display, RootWindow(m_display, DefaultScreen(m_display)), &m_event.xbutton.root, &m_event.xbutton.window, &m_event.xbutton.x_root, &m_event.xbutton.y_root, &m_event.xbutton.x, &m_event.xbutton.y, &m_event.xbutton.state);
-
-    m_event.xbutton.subwindow = m_event.xbutton.window;
-
-    //sucht das unterste Fenster
-    while(m_event.xbutton.subwindow)
+    switch (m_button)
     {
-        m_event.xbutton.window = m_event.xbutton.subwindow;
-
-        XQueryPointer(m_display, m_event.xbutton.window, &m_event.xbutton.root, &m_event.xbutton.subwindow, &m_event.xbutton.x_root, &m_event.xbutton.y_root, &m_event.xbutton.x, &m_event.xbutton.y, &m_event.xbutton.state);
+    case 1:
+        XTestFakeButtonEvent(m_display, Button1, true, 0);
+        break;
+    case 2:
+        XTestFakeButtonEvent(m_display, Button2, true, 0);
+        break;
+    case 3:
+        XTestFakeButtonEvent(m_display, Button3, true, 0);
+        break;
+    case 4:
+        XTestFakeButtonEvent(m_display, Button4, true, 0);
+        break;
+    case 5:
+        XTestFakeButtonEvent(m_display, Button5, true, 0);
+        break;
     }
-
-    //schickt das Event an das Fenster
-    if(XSendEvent(m_display, PointerWindow, True, 0xfff, &m_event) == 0) fprintf(stderr, "Error\n");
-
     XFlush(m_display);  //zeichnet das Fenster neu
 
 }
 
 void CMouse::releaseClick()
 {
-    //setzt das Event so, dass die Taste losgelassen wird
-    m_event.type = ButtonRelease;
-    m_event.xbutton.state = 0x100;
-
-    //schickt das Event an das Fenster
-    if(XSendEvent(m_display, PointerWindow, True, 0xfff, &m_event) == 0) fprintf(stderr, "Error\n");
-
+    switch (m_button)
+    {
+    case 1:
+        XTestFakeButtonEvent(m_display, Button1, false, 0);
+        break;
+    case 2:
+        XTestFakeButtonEvent(m_display, Button4, false, 0);
+        break;
+    case 3:
+        XTestFakeButtonEvent(m_display, Button3, false, 0);
+        break;
+    case 4:
+        XTestFakeButtonEvent(m_display, Button4, false, 0);
+        break;
+    case 5:
+        XTestFakeButtonEvent(m_display, Button5, false, 0);
+        break;
+    }
     XFlush(m_display);  //zeichnet das Fenster neu
+
 }

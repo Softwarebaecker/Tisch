@@ -40,6 +40,7 @@ public:
     cv::Mat get_m_webcamFrameErode();
     cv::Mat get_m_webcamFrameDilate();
     cv::Point2f get_m_CoordinateMoment(int pos);
+    int get_m_CoordinateMoment_number();
     CProperties* get_m_Properties();
     ////Get-Methoden////
 

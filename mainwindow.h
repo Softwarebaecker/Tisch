@@ -2,9 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <pongwindow.h>
 #include <propertieswindow.h>
 #include <calibrationwindow.h>
 #include <simulationswindow.h>
+
 
 namespace Ui {
 class CMainWindow;
@@ -28,11 +30,14 @@ private slots:
 
     void on_button_simulation_clicked();
 
+    void on_button_pong_clicked();
+
 private:
     Ui::CMainWindow *ui;
     CPropertiesWindow* propertiesWindow;
     CCalibrationwindow* calibrationWindow;
     CSimulationswindow* simulationwindow;
+    CPongWindow* pongwindow;
 
 };
 

@@ -18,6 +18,13 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QPushButton" name="button_simulation">
+        <property name="text">
+         <string>Maussimulation</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="button_properties">
         <property name="text">
          <string>Einstellungen</string>
@@ -32,9 +39,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="button_simulation">
+       <widget class="QPushButton" name="button_pong">
         <property name="text">
-         <string>Maussimulation</string>
+         <string>Pong</string>
         </property>
        </widget>
       </item>

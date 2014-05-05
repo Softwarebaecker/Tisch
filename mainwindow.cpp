@@ -36,3 +36,9 @@ void CMainWindow::on_button_simulation_clicked()
     simulationwindow = new CSimulationswindow;
     simulationwindow->show();
 }
+
+void CMainWindow::on_button_pong_clicked()
+{
+    pongwindow = new CPongWindow;
+    pongwindow->show();
+}
