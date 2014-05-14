@@ -20,10 +20,11 @@ SOURCES += main.cpp\
     calibrationwindow.cpp \
     mouse.cpp \
     simulationswindow.cpp \
-    paintwindow.cpp \
     ball.cpp \
     pannel.cpp \
-    pongwindow.cpp
+    pongwindow.cpp \
+    cmacrowindow.cpp \
+    cmacro.cpp
 
 HEADERS  += mainwindow.h \
     propertieswindow.h \
@@ -32,17 +33,18 @@ HEADERS  += mainwindow.h \
     calibrationwindow.h \
     mouse.h \
     simulationswindow.h \
-    paintwindow.h \
     ball.h \
     pannel.h \
-    pongwindow.h
+    pongwindow.h \
+    cmacrowindow.h \
+    cmacro.h
 
 FORMS    += mainwindow.ui \
     propertieswindow.ui \
     calibrationwindow.ui \
     simulationswindow.ui \
-    paintwindow.ui \
-    pongwindow.ui
+    pongwindow.ui \
+    cmacrowindow.ui
 
 
 

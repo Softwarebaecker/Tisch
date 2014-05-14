@@ -13,7 +13,6 @@ CMouse::CMouse()
 CMouse::~CMouse()
 {
     XCloseDisplay(m_display);       //schließt Display
-    delete m_display;
 }
 
 void CMouse::setPosition(cv::Point2f coordinates)

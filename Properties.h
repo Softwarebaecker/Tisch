@@ -1,40 +1,57 @@
 #ifndef PROPERTIES_H
 #define PROPERTIES_H
 #include <opencv2/core/core.hpp>
+#include <QMutex>
 
 class CProperties
 {
 private:
     //Filterwerte
     int m_HMax;
+    QMutex m_MutexHMax;
     int m_HMin;
+    QMutex m_MutexHMin;
     int m_SMax;
+    QMutex m_MutexSMax;
     int m_SMin;
+    QMutex m_MutexSMin;
     int m_VMax;
+    QMutex m_MutexVMax;
     int m_VMin;
+    QMutex m_MutexVMin;
 
     int m_Dilate;
+    QMutex m_MutexDilate;
     int m_Erode;
+    QMutex m_MutexErode;
 
     int m_BlubMin;
+    QMutex m_MutexBlubMin;
     int m_BlubMax;
+    QMutex m_MutexBlubMax;
     //Filterwerte
 
     //Kameraauflösung
     int m_CamHeight;
+    QMutex m_MutexCamHeight;
     int m_CamWight;
+    QMutex m_MutexCamWight;
     //Kameraauflösung
 
     //Monitorauflösung
     int m_DisplayHeight;
+    QMutex m_MutexDisplayHeight;
     int m_DisplayWight;
+    QMutex m_MutexDisplayWight;
     //Monitorauflösung
 
     //
     cv::Point2f m_DisplayCorner[4];
+    QMutex m_MutexDisplayCorner;
 
     //Transformmatrix
     cv::Mat m_TransformMatrix;
+    QMutex m_MutexTransformMatrix;
     //Transformmatrix
 public:
     CProperties();

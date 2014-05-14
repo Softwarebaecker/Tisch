@@ -4,9 +4,11 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <QDesktopWidget>
-#include <Properties.h>
+#include <QThread>
+#include <QMutex>
+#include "Properties.h"
 
-class CTracking
+class CTracking : public QThread
 {
 private:
     cv::VideoCapture m_Webcam;
@@ -15,10 +17,25 @@ private:
     cv::Mat m_webcamFrameInRange;
     cv::Mat m_webcamFrameErode;
     cv::Mat m_webcamFrameDilate;
+    cv::Mat m_WebcamFrameDraw;
 
     cv::vector<cv::Point2f> m_CoordinateMoment;
 
     CProperties m_Properties;
+
+    QMutex m_MutexWebcamFrame;
+    QMutex m_MutexWebcamFrameInRange;
+    QMutex m_MutexWebcamFrameErode;
+    QMutex m_MutexWebcamFrameDilate;
+    QMutex m_MutexWebcamFrameDraw;
+    QMutex m_MutexCoordinateMoment;
+    QMutex m_MutexProperties;
+    QMutex m_MutexStop;
+    QMutex m_MutexDrawcoordinates;
+
+    bool m_stop;
+    bool m_drawcoordinates;
+
 
 public:
     CTracking();
@@ -29,9 +46,11 @@ public:
 
     void convertFrame();            //konvertiert das Bild
     bool tracking();                //sucht die größte Berührung heraus
-    bool convertCoordinate();       //konvertiert die Koordinaten der Kamera in Bildschirmkoordinaten
+    void convertCoordinate();       //konvertiert die Koordinaten der Kamera in Bildschirmkoordinaten
     void drawcoordinates();          //zeichnet einen Kreis um die Berührung
 
+    void stopThread();
+    void set_drawcoordinates(bool);
 
     ////Get-Methoden////
     cv::Mat get_m_webcamFrame();
@@ -39,10 +58,15 @@ public:
     cv::Mat get_m_webcamFrameInRange();
     cv::Mat get_m_webcamFrameErode();
     cv::Mat get_m_webcamFrameDilate();
+    cv::Mat get_m_webcamFrameDraw();
     cv::Point2f get_m_CoordinateMoment(int pos);
     int get_m_CoordinateMoment_number();
     CProperties* get_m_Properties();
     ////Get-Methoden////
+
+public slots:
+
+    void run();
 
 };
 

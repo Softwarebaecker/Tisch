@@ -5,6 +5,7 @@
 #include "tracking.h"
 #include "QTimer"
 
+#include "cmacro.h"
 #include "mouse.h"
 
 
@@ -17,7 +18,7 @@ class CSimulationswindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit CSimulationswindow(QWidget *parent = 0);
+    explicit CSimulationswindow(CTracking* stream, QWidget *parent = 0);
     ~CSimulationswindow();
 
 private slots:
@@ -29,8 +30,9 @@ public slots:
 private:
     Ui::CSimulationswindow *ui;
     QTimer* m_Timer;
-    CTracking m_Stream;
+    CTracking* m_Stream;
     CMouse m_Mouse;
+    CMacro m_Macro;
 };
 
 #endif // SIMULATIONSWINDOW_H

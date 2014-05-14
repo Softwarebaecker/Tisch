@@ -7,10 +7,16 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui(new Ui::CMainWindow)
 {
     ui->setupUi(this);
+
+    m_stream = new CTracking;
+    m_stream->start();
+
+
 }
 
 CMainWindow::~CMainWindow()
 {
+    m_stream->quit();
     delete ui;
 }
 
@@ -18,14 +24,14 @@ CMainWindow::~CMainWindow()
 //Einstellungen aufrufen
 void CMainWindow::on_button_properties_clicked()
 {
-    propertiesWindow = new CPropertiesWindow;
+    propertiesWindow = new CPropertiesWindow(m_stream);
     propertiesWindow->show();
 }
 
 //Kalibrierung aufrufen
 void CMainWindow::on_button_calibration_clicked()
 {
-    calibrationWindow = new CCalibrationwindow;
+    calibrationWindow = new CCalibrationwindow(m_stream);
     calibrationWindow->showFullScreen();
     calibrationWindow->updateGUI();
 }
@@ -33,12 +39,19 @@ void CMainWindow::on_button_calibration_clicked()
 //Maussimulation starten
 void CMainWindow::on_button_simulation_clicked()
 {
-    simulationwindow = new CSimulationswindow;
+    simulationwindow = new CSimulationswindow(m_stream);
     simulationwindow->show();
 }
 
 void CMainWindow::on_button_pong_clicked()
 {
-    pongwindow = new CPongWindow;
+    pongwindow = new CPongWindow(m_stream);
     pongwindow->show();
+}
+
+void CMainWindow::on_button_macro_clicked()
+{
+    CMacroWindow macroWindow;
+
+    macroWindow.exec();
 }

@@ -1,8 +1,10 @@
 #include "ball.h"
 
-Ball::Ball(QWidget * widget)
+Ball::Ball(QWidget * widget, Pannel* links, Pannel* rechts)
 {
     m_Widget=widget;
+    m_pannelLinks = links;
+    m_pannelRechts = rechts;
     SetStart();
 }
 
@@ -11,17 +13,18 @@ bool Ball::Update()
     m_PosRefX+=m_DirectionX;
     m_PosRefY+=m_DirectionY;
     //y koordinate checken
-    if(m_PosRefY>720-10 || m_PosRefY<0+10)
+    if(m_PosRefY>800-10 || m_PosRefY<0+10)
     {
         m_DirectionY*=-1;
     }
 
     if(m_PosRefX>1280-10 || m_PosRefX<0+10)
     {
+        //emit ballOut();
         return false;
     }
 
-    m_Speed+=0.001;
+    m_Speed+=0.00001;
 
     //x koordinate checken (spieler verloren)
     m_Widget->move(QPoint((int)m_PosRefX-10,(int)m_PosRefY-10));
@@ -30,11 +33,11 @@ bool Ball::Update()
 
 void Ball::SetStart()
 {
-    m_Speed=4;
-    m_DirectionX=5;
+    m_Speed=1;
+    m_DirectionX=m_Speed;
     m_DirectionY=0;
     m_PosRefX=200;
-    m_PosRefY=720/2;
+    m_PosRefY=800/2;
 }
 
 void Ball::CheckCollision(Pannel * panel)
@@ -72,4 +75,19 @@ void Ball::SetBallDerection(int winkel)
 {
     m_DirectionX=cos(winkel*3.14158/180)*m_Speed;
     m_DirectionY=sin(winkel*3.14158/180)*m_Speed;
+}
+
+void Ball::run()
+{
+    while(1)
+    {
+        CheckCollision(m_pannelRechts);
+        CheckCollision(m_pannelLinks);
+
+        if(!Update())
+        {
+            break;
+        }
+        msleep(5);
+    }
 }

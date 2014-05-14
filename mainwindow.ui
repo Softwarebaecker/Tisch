@@ -32,6 +32,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="button_macro">
+        <property name="text">
+         <string>Macro</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="button_calibration">
         <property name="text">
          <string>Kalibrieren</string>

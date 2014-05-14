@@ -3,27 +3,25 @@
 
 CTracking::CTracking()
 {
-
+    openWebcam();
+    m_stop = false;
+    m_drawcoordinates = false;
 }
 
 CTracking::~CTracking()
 {
-
+    closeWebcam();
 }
 
 bool CTracking::openWebcam()
 {
-
     m_Webcam.open("http://192.168.0.254:8080/?action=stream&amp;type=.mjpg");   //öffnet die Kamera //wenn 1 übergeben wird, dann Webcam, die am PC angeschlossen ist
 
     if(!m_Webcam.isOpened())    //überprüft, ob die Kamera geöffnet ist
     {
-        return false;
+        exit();
     }
-    else
-    {
-        return true;
-    }
+    return true;
 }
 
 bool CTracking::closeWebcam()
@@ -43,19 +41,30 @@ bool CTracking::closeWebcam()
 void CTracking::convertFrame()
 {
     //einen Frame aus der Kammera lesen
+    m_MutexWebcamFrame.lock();
     m_Webcam.read(m_webcamFrame);
+    m_MutexWebcamFrame.unlock();
+    m_MutexDrawcoordinates.lock();
+    m_webcamFrame.copyTo( m_WebcamFrameDraw);
+    m_MutexDrawcoordinates.unlock();
 
     //Schwellwertverfahren
+    m_MutexWebcamFrameInRange.lock();
     cv::inRange(m_webcamFrame,
                 cv::Scalar(m_Properties.get_m_HMin(),m_Properties.get_m_SMin(),m_Properties.get_m_VMin()),
                 cv::Scalar(m_Properties.get_m_HMax(),m_Properties.get_m_SMax(),m_Properties.get_m_VMax()),
                 m_webcamFrameInRange);
+    m_MutexWebcamFrameInRange.unlock();
 
     //Erosionsverfahren
+    m_MutexWebcamFrameErode.lock();
     cv::erode(m_webcamFrameInRange, m_webcamFrameErode, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(m_Properties.get_m_Erode(),m_Properties.get_m_Erode())));
+    m_MutexWebcamFrameErode.unlock();
 
     //Dilationsverfahren
+    m_MutexWebcamFrameDilate.lock();
     cv::dilate(m_webcamFrameErode, m_webcamFrameDilate, cv::getStructuringElement(cv::MORPH_RECT, cv::Size(m_Properties.get_m_Dilate(), m_Properties.get_m_Dilate())));
+    m_MutexWebcamFrameDilate.unlock();
 }
 
 
@@ -70,15 +79,18 @@ bool CTracking::tracking()
     int numObjects;
     bool objectFound = false;
     double area;
-    double areaLast = 0;
 
     int blubMin = m_Properties.get_m_BlubMin();
     int blubMax = m_Properties.get_m_BlubMax();
 
+    m_MutexWebcamFrameDilate.lock();
+    cv::Mat tmp(m_webcamFrameDilate);
+    m_MutexWebcamFrameDilate.unlock();
+
+    cv::findContours(tmp, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);  //Konturen finden
+
+    m_MutexCoordinateMoment.lock();
     m_CoordinateMoment.clear();
-
-    cv::findContours(m_webcamFrameDilate, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);  //Konturen finden
-
     if(hierarchy.size() > 0)
     {
         numObjects = hierarchy.size();
@@ -97,77 +109,98 @@ bool CTracking::tracking()
                     coordinatsTMP.x = moment.m10/area;
                     //Setzen der Koordinaten
 
-                    if(areaLast < area) //überprüft, ob das Element größer als das Letzte ist
-                    {
-                        if(!m_CoordinateMoment.empty())
-                        {
-                            m_CoordinateMoment.at(0) = coordinatsTMP;
-                        }
-                        else
-                        {
-                            m_CoordinateMoment.push_back(coordinatsTMP);
-                        }
-                        areaLast = area;    //setzt das jetzige Element als das bis jetzt größte
+                    m_CoordinateMoment.push_back(coordinatsTMP);
+                    objectFound = true;
 
-                        objectFound = true;
-                    }
-                    else
-                    {
-                        m_CoordinateMoment.push_back(coordinatsTMP);
-                    }
 
                 }
             }
         }
     }
-
     return objectFound;
 }
-bool CTracking::convertCoordinate()
+void CTracking::convertCoordinate()
 {
     cv::perspectiveTransform(m_CoordinateMoment, m_CoordinateMoment, m_Properties.get_m_TransformMatrix()); //multipliziert die Koordinaten mit der Matrix
-
-    return true;
 }
 
 void CTracking::drawcoordinates()
 {
-    for(int index = 0;index<m_CoordinateMoment.size();index++)
-    cv::circle(m_webcamFrame, cv::Point(m_CoordinateMoment.at(index).x,m_CoordinateMoment.at(index).y),20,cv::Scalar(0,255,0),2); //setzt einen Kreis um die Koordinaten
+    m_MutexWebcamFrameDraw.lock();
+    for(int index = 0 ; index < m_CoordinateMoment.size() ; index++)
+    cv::circle(m_WebcamFrameDraw, cv::Point(m_CoordinateMoment.at(index).x,m_CoordinateMoment.at(index).y),20,cv::Scalar(0,255,0),2); //setzt einen Kreis um die Koordinaten
+    m_MutexWebcamFrameDraw.unlock();
 }
 
 ////Get-Methoden////
 cv::Mat CTracking::get_m_webcamFrame()
 {
-    return m_webcamFrame;
+    cv::Mat tmp;
+    m_MutexWebcamFrame.lock();
+    m_webcamFrame.copyTo(tmp);
+    m_MutexWebcamFrame.unlock();
+    return tmp;
 }
 
 
 cv::Mat CTracking::get_m_webcamFrameInRange()
 {
-    return m_webcamFrameInRange;
+    cv::Mat tmp;
+    m_MutexWebcamFrameInRange.lock();
+    m_webcamFrameInRange.copyTo(tmp);
+    m_MutexWebcamFrameInRange.unlock();
+    return tmp;
 }
 
 
 cv::Mat CTracking::get_m_webcamFrameErode()
 {
-    return m_webcamFrameErode;
+    cv::Mat tmp;
+    m_MutexWebcamFrameErode.lock();
+    m_webcamFrameErode.copyTo(tmp);
+    m_MutexWebcamFrameErode.unlock();
+    return tmp;
 }
 
 cv::Mat CTracking::get_m_webcamFrameDilate()
 {
-    return m_webcamFrameDilate;
+    cv::Mat tmp;
+    m_MutexWebcamFrameDilate.lock();
+    m_webcamFrameDilate.copyTo(tmp);
+    m_MutexWebcamFrameDilate.unlock();
+    return tmp;
+}
+cv::Mat CTracking::get_m_webcamFrameDraw()
+{
+    cv::Mat tmp;
+    m_MutexWebcamFrameDraw.lock();
+    m_WebcamFrameDraw.copyTo(tmp);
+    m_MutexWebcamFrameDraw.unlock();
+    return tmp;
 }
 
 cv::Point2f CTracking::get_m_CoordinateMoment(int pos)
 {
-
-    return m_CoordinateMoment.at(pos);
+    cv::Point2f tmp;
+    m_MutexCoordinateMoment.lock();
+    if(m_CoordinateMoment.size() > pos)
+    {
+        tmp = m_CoordinateMoment.at(pos);
+    }
+    else
+    {
+        tmp = m_CoordinateMoment.back();
+    }
+    m_MutexCoordinateMoment.unlock();
+    return tmp;
 }
 
 int CTracking::get_m_CoordinateMoment_number()
 {
-    return m_CoordinateMoment.size();
+    m_MutexCoordinateMoment.lock();
+    int tmp = m_CoordinateMoment.size();
+    m_MutexCoordinateMoment.unlock();
+    return tmp;
 }
 
 CProperties* CTracking::get_m_Properties()
@@ -175,4 +208,42 @@ CProperties* CTracking::get_m_Properties()
     return &m_Properties;
 }
 
+void CTracking::stopThread()
+{
+    m_MutexStop.lock();
+    m_stop = true;
+    m_MutexStop.unlock();
+}
+
+
+void CTracking::set_drawcoordinates(bool tmp)
+{
+    m_MutexDrawcoordinates.lock();
+    m_drawcoordinates = tmp;
+    m_MutexDrawcoordinates.unlock();
+}
+
 ////Get-Methoden////
+
+
+void CTracking::run()
+{
+    while(!m_stop)
+    {
+        convertFrame();
+
+        if(tracking())
+        {
+            m_MutexDrawcoordinates.lock();
+            if(m_drawcoordinates)
+            {
+                drawcoordinates();
+            }
+            m_MutexDrawcoordinates.unlock();
+
+            convertCoordinate();
+        }
+
+        m_MutexCoordinateMoment.unlock();
+    }
+}

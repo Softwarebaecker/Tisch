@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>720</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Pong</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="Panel_Left" native="true">
    <property name="geometry">
@@ -23,7 +26,10 @@
     </rect>
    </property>
    <property name="autoFillBackground">
-    <bool>true</bool>
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 0, 0);</string>
    </property>
   </widget>
   <widget class="QWidget" name="Ball" native="true">
@@ -35,6 +41,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
   </widget>
   <widget class="QWidget" name="Panel_Right" native="true">
    <property name="geometry">
@@ -44,6 +53,9 @@
      <width>20</width>
      <height>100</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(170, 0, 0);</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -161,6 +173,23 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>1090</x>
+     <y>650</y>
+     <width>181</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>für mehr Informationen:
+www.d4rkn3t.net/tostLP</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>

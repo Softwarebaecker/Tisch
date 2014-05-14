@@ -2,7 +2,6 @@
 #define CALIBRATIONWINDOW_H
 
 #include <QWidget>
-#include <QTimer>
 #include <tracking.h>
 
 namespace Ui {
@@ -15,11 +14,10 @@ class CCalibrationwindow : public QWidget
      
 private:
     Ui::CCalibrationwindow *ui;
-    QTimer* m_Timer;
-    CTracking m_Stream;
+    CTracking *m_Stream;
 
 public:
-    explicit CCalibrationwindow(QWidget *parent = 0);
+    explicit CCalibrationwindow(CTracking* stream,QWidget *parent = 0);
     ~CCalibrationwindow();
     
 

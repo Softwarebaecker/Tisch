@@ -4,6 +4,9 @@
 #include <QDialog>
 #include <QTimer>
 #include <tracking.h>
+
+#include "cmacro.h"
+#include "mouse.h"
 namespace Ui {
 class CPropertiesWindow;
 }
@@ -13,16 +16,19 @@ class CPropertiesWindow : public QDialog
     Q_OBJECT
     
 public:
-    explicit CPropertiesWindow(QWidget *parent = 0);
+    explicit CPropertiesWindow(CTracking* stream, QWidget *parent = 0);
     ~CPropertiesWindow();
     
 private:
     Ui::CPropertiesWindow *ui;
     QTimer* m_Timer;
-    CTracking m_Stream;
+    CTracking* m_Stream;
+    CMouse m_Mouse;
+    CMacro m_Macro;
+
 
 public slots:
-    void updateGUI();
+    void updateGUI();   //Timerfunktion
 
 private slots:
     void on_button_OK_clicked();

@@ -3,12 +3,9 @@
 #include "opencv2/core/core.hpp"
 #include "QCursor"
 
-#include "X11/Xlib.h"
 #include "X11/Xutil.h"
 #include <X11/Xlib.h>
 #include <X11/extensions/XTest.h>
-#include <X11/extensions/XTest.h>
-#include <stdio.h>
 
 class CMouse
 {
