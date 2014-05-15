@@ -6,6 +6,7 @@ CTracking::CTracking()
     openWebcam();
     m_stop = false;
     m_drawcoordinates = false;
+    m_convertCoordinates = true;
 }
 
 CTracking::~CTracking()
@@ -127,7 +128,7 @@ void CTracking::convertCoordinate()
 void CTracking::drawcoordinates()
 {
     m_MutexWebcamFrameDraw.lock();
-    for(int index = 0 ; index < m_CoordinateMoment.size() ; index++)
+    for(unsigned int index = 0 ; index < m_CoordinateMoment.size() ; index++)
     cv::circle(m_WebcamFrameDraw, cv::Point(m_CoordinateMoment.at(index).x,m_CoordinateMoment.at(index).y),20,cv::Scalar(0,255,0),2); //setzt einen Kreis um die Koordinaten
     m_MutexWebcamFrameDraw.unlock();
 }
@@ -179,7 +180,7 @@ cv::Mat CTracking::get_m_webcamFrameDraw()
     return tmp;
 }
 
-cv::Point2f CTracking::get_m_CoordinateMoment(int pos)
+cv::Point2f CTracking::get_m_CoordinateMoment(unsigned int pos)
 {
     cv::Point2f tmp;
     m_MutexCoordinateMoment.lock();
@@ -223,6 +224,14 @@ void CTracking::set_drawcoordinates(bool tmp)
     m_MutexDrawcoordinates.unlock();
 }
 
+
+void CTracking::set_convertCoordinates(bool tmp)
+{
+    m_MutexConvertCoordinates.lock();
+    m_convertCoordinates = tmp;
+    m_MutexConvertCoordinates.unlock();
+}
+
 ////Get-Methoden////
 
 
@@ -241,7 +250,12 @@ void CTracking::run()
             }
             m_MutexDrawcoordinates.unlock();
 
-            convertCoordinate();
+            m_MutexConvertCoordinates.lock();
+            if(m_convertCoordinates)
+            {
+                convertCoordinate();
+            }
+            m_MutexConvertCoordinates.unlock();
         }
 
         m_MutexCoordinateMoment.unlock();

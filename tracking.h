@@ -32,9 +32,11 @@ private:
     QMutex m_MutexProperties;
     QMutex m_MutexStop;
     QMutex m_MutexDrawcoordinates;
+    QMutex m_MutexConvertCoordinates;
 
     bool m_stop;
     bool m_drawcoordinates;
+    bool m_convertCoordinates;
 
 
 public:
@@ -51,6 +53,7 @@ public:
 
     void stopThread();
     void set_drawcoordinates(bool);
+    void set_convertCoordinates(bool);
 
     ////Get-Methoden////
     cv::Mat get_m_webcamFrame();
@@ -59,7 +62,7 @@ public:
     cv::Mat get_m_webcamFrameErode();
     cv::Mat get_m_webcamFrameDilate();
     cv::Mat get_m_webcamFrameDraw();
-    cv::Point2f get_m_CoordinateMoment(int pos);
+    cv::Point2f get_m_CoordinateMoment(unsigned int pos);
     int get_m_CoordinateMoment_number();
     CProperties* get_m_Properties();
     ////Get-Methoden////

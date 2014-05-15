@@ -25,7 +25,6 @@ private slots:
     void on_button_starte_clicked();
     void Update();
     void UpdateTracking();
-    void UpdateMenue();
 
 
     void on_button_benden_clicked();

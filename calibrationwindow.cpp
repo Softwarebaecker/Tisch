@@ -66,6 +66,7 @@ void CCalibrationwindow::updateGUI()
         //Bild einfügen
         cv::waitKey(20);    //wartet 20ms
 
+        m_Stream->set_convertCoordinates(false);
         while(true) //Endlosschleife, bricht ab, sobald eine Berührung der Platte aufhört
         {
             if(m_Stream->get_m_CoordinateMoment_number()!=0)
@@ -108,6 +109,7 @@ void CCalibrationwindow::updateGUI()
         }
 
     }
+    m_Stream->set_convertCoordinates(true);
     m_Stream->get_m_Properties()->set_m_TransformMatrix(cv::getPerspectiveTransform(srcQaud,dstQuad));   //erstellt eine Matrix für die Perspektive Transformation und speichet diese in der Propertie-Klasse ab
     m_Stream->get_m_Properties()->saveData();    //speichert die Propertie-Klasse in eine Datei
     close();    //schließt das Fenster

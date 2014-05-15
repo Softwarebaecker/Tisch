@@ -445,7 +445,7 @@ void CProperties::loadData()
 
         //Monitorecken Koordinaten
         m_MutexTransformMatrix.lock();
-        m_TransformMatrix.create(2,3,CV_32FC1);
+        m_TransformMatrix = cv::Mat::ones(3,3,CV_32F);
         m_MutexTransformMatrix.unlock();
         //Monitorecken Koordinaten
     }
@@ -498,16 +498,17 @@ bool CProperties::saveData()
         file << "CamHeight" <<  m_CamHeight;
         m_MutexCamHeight.unlock();
         m_MutexCamWight.lock();
-        file << "CamWight" << m_CamWight;m_MutexCamWight.unlock();
+        file << "CamWight" << m_CamWight;
+        m_MutexCamWight.unlock();
         //Kameraauflösung
 
         //Monitorauflösung
         m_MutexDisplayHeight.lock();
         file << "DisplayHeight" << m_DisplayHeight;
-        m_MutexCamHeight.unlock();
-        m_MutexCamWight.lock();
+        m_MutexDisplayHeight.unlock();
+        m_MutexDisplayWight.lock();
         file << "DisplayWight" << m_DisplayWight;
-        m_MutexCamWight.unlock();
+        m_MutexDisplayWight.unlock();
         //Monitorauflösung
 
         //Monitorecken Koordinaten
