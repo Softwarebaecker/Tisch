@@ -33,7 +33,7 @@ bool Ball::Update()
 
 void Ball::SetStart()
 {
-    m_Speed=1;
+    m_Speed=2;
     m_DirectionX=m_Speed;
     m_DirectionY=0;
     m_PosRefX=200;
