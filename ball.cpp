@@ -20,7 +20,6 @@ bool Ball::Update()
 
     if(m_PosRefX>1280-10 || m_PosRefX<0+10)
     {
-        //emit ballOut();
         return false;
     }
 

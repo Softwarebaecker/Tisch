@@ -41,6 +41,7 @@ private:
     CCalibrationwindow* calibrationWindow;
     CSimulationswindow* simulationwindow;
     CPongWindow* pongwindow;
+    CMacroWindow* macroWindow;
     CTracking* m_stream;
 };
 

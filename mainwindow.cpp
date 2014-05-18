@@ -11,6 +11,12 @@ CMainWindow::CMainWindow(QWidget *parent) :
     m_stream = new CTracking;
     m_stream->start();
 
+    propertiesWindow = NULL;
+    calibrationWindow = NULL;
+    simulationwindow = NULL;
+    pongwindow = NULL;
+    macroWindow = NULL;
+
 
 }
 
@@ -24,6 +30,11 @@ CMainWindow::~CMainWindow()
 //Einstellungen aufrufen
 void CMainWindow::on_button_properties_clicked()
 {
+    if(propertiesWindow!= NULL)
+    {
+        delete propertiesWindow;
+        propertiesWindow = NULL;
+    }
     propertiesWindow = new CPropertiesWindow(m_stream);
     propertiesWindow->show();
 }
@@ -31,6 +42,11 @@ void CMainWindow::on_button_properties_clicked()
 //Kalibrierung aufrufen
 void CMainWindow::on_button_calibration_clicked()
 {
+    if(calibrationWindow!= NULL)
+    {
+        delete calibrationWindow;
+        calibrationWindow = NULL;
+    }
     calibrationWindow = new CCalibrationwindow(m_stream);
     calibrationWindow->showFullScreen();
     calibrationWindow->updateGUI();
@@ -39,19 +55,34 @@ void CMainWindow::on_button_calibration_clicked()
 //Maussimulation starten
 void CMainWindow::on_button_simulation_clicked()
 {
+    if(simulationwindow!= NULL)
+    {
+        delete simulationwindow;
+        simulationwindow = NULL;
+    }
     simulationwindow = new CSimulationswindow(m_stream);
     simulationwindow->show();
 }
 
 void CMainWindow::on_button_pong_clicked()
 {
+    if(pongwindow!= NULL)
+    {
+        delete pongwindow;
+        pongwindow = NULL;
+    }
     pongwindow = new CPongWindow(m_stream);
     pongwindow->show();
 }
 
 void CMainWindow::on_button_macro_clicked()
 {
-    CMacroWindow macroWindow;
+    if(macroWindow!= NULL)
+    {
+        delete macroWindow;
+        macroWindow = NULL;
+    }
+    macroWindow = new CMacroWindow(m_stream);
 
-    macroWindow.exec();
+    macroWindow->show();
 }

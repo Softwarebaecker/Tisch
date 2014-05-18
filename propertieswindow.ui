@@ -512,13 +512,13 @@ V = Hellwert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              <property name="minimumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="autoFillBackground">
@@ -541,13 +541,13 @@ V = Hellwert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              <property name="minimumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="autoFillBackground">
@@ -579,19 +579,6 @@ V = Hellwert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              <property name="sizeConstraint">
               <enum>QLayout::SetMinimumSize</enum>
              </property>
-             <item>
-              <widget class="QCheckBox" name="checkBox">
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="autoFillBackground">
-                <bool>true</bool>
-               </property>
-               <property name="text">
-                <string>Maussimulation</string>
-               </property>
-              </widget>
-             </item>
              <item>
               <widget class="QPushButton" name="button_OK">
                <property name="text">
@@ -670,13 +657,13 @@ V = Hellwert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              <property name="minimumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="autoFillBackground">
@@ -699,13 +686,13 @@ V = Hellwert&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              <property name="minimumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>320</width>
-               <height>240</height>
+               <height>200</height>
               </size>
              </property>
              <property name="autoFillBackground">

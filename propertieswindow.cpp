@@ -64,7 +64,7 @@ void CPropertiesWindow::updateGUI()
     m_Stream->get_m_webcamFrameDraw().copyTo(tmpbild);
     QImage tempCam((uchar*)tmpbild.data, tmpbild.cols, tmpbild.rows, QImage::Format_RGB888 );
     //Bild skalieren für Fenster
-    tempCam = tempCam.scaled(320,240,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    tempCam = tempCam.scaled(320,200,Qt::KeepAspectRatio, Qt::SmoothTransformation);
     //Bild in UI ausgeben
     ui->image_cam->setPixmap(QPixmap::fromImage(tempCam));
 
@@ -73,7 +73,7 @@ void CPropertiesWindow::updateGUI()
     m_Stream->get_m_webcamFrameInRange().copyTo(tmpbild);
     QImage tempInRange((uchar*)tmpbild.data, tmpbild.cols, tmpbild.rows, QImage::Format_Indexed8 );
     //Bild skalieren für Fenster
-    tempInRange = tempInRange.scaled(320,240,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    tempInRange = tempInRange.scaled(320,200,Qt::KeepAspectRatio, Qt::SmoothTransformation);
     //Bild in UI ausgeben
     ui->image_inRange->setPixmap(QPixmap::fromImage(tempInRange));
 
@@ -82,7 +82,7 @@ void CPropertiesWindow::updateGUI()
     m_Stream->get_m_webcamFrameInRange().copyTo(tmpbild);
     QImage tempDilate((uchar*)tmpbild.data, tmpbild.cols, tmpbild.rows, QImage::Format_Indexed8 );
     //Bild skalieren für Fenster
-    tempDilate = tempDilate.scaled(320,240,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    tempDilate = tempDilate.scaled(320,200,Qt::KeepAspectRatio, Qt::SmoothTransformation);
     //Bild in UI ausgeben
     ui->image_Dilate->setPixmap(QPixmap::fromImage(tempDilate));
 
@@ -91,7 +91,7 @@ void CPropertiesWindow::updateGUI()
     m_Stream->get_m_webcamFrameInRange().copyTo(tmpbild);
     QImage tempErode((uchar*)tmpbild.data, tmpbild.cols, tmpbild.rows, QImage::Format_Indexed8 );
     //Bild skalieren für Fenster
-    tempErode = tempErode.scaled(320,240,Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    tempErode = tempErode.scaled(320,200,Qt::KeepAspectRatio, Qt::SmoothTransformation);
     //Bild in UI ausgeben
     ui->image_Erode->setPixmap(QPixmap::fromImage(tempErode));
 }

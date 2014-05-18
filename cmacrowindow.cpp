@@ -4,32 +4,18 @@
 
 #include "cmacrowindow.h"
 
-CMacroWindow::CMacroWindow(QWidget *parent) :
+CMacroWindow::CMacroWindow(CTracking* stream, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::CMacroWindow)
 {
     ui->setupUi(this);
-    //Kamerastream öffnen
-    if(m_Stream.openWebcam() == true)
-    {
-        m_Timer = new QTimer(this); //Timer erstellen
 
-        connect(m_Timer, SIGNAL(timeout()), this, SLOT(update()));   //Timer mit Funktion verbinden
+    m_Stream = stream;
+    m_Timer = new QTimer(this); //Timer erstellen
 
-        m_Timer->start(20);     //Timer starten
-    }
-    else
-    {
-        m_Timer->stop();    //Timer stoppen
+    connect(m_Timer, SIGNAL(timeout()), this, SLOT(update()));   //Timer mit Funktion verbinden
 
-        //Fehlermeldung ausgeben
-        QMessageBox warning;
-        warning.setText("Achtung!!\n Kamera konnte nicht geöffnet werden!");
-        warning.exec();
-        //Fehlermeldung ausgeben
-
-        exit(1);
-    }
+    m_Timer->start(20);     //Timer starten
 
     ui->pushButton->setText(QString::fromStdString(m_Macro.get_Macro(0)));
     ui->pushButton_2->setText(QString::fromStdString(m_Macro.get_Macro(1)));
@@ -50,24 +36,19 @@ CMacroWindow::~CMacroWindow()
 
 void CMacroWindow::update()
 {
-    //analysiert einen Frame
-    m_Stream.convertFrame();
     QString coordinats;
 
     coordinats.clear();
 
-    if(m_Stream.tracking())
+    if(0 != m_Stream->get_m_CoordinateMoment_number())
     {
-        m_Stream.convertCoordinate();
-
         //Koordinaten ausgeben
-        coordinats.sprintf("X : %02d , Y : %02d",(int)m_Stream.get_m_CoordinateMoment(0).x,(int)m_Stream.get_m_CoordinateMoment(0).y);
+        coordinats.sprintf("X : %02d , Y : %02d",(int)m_Stream->get_m_CoordinateMoment(0).x,(int)m_Stream->get_m_CoordinateMoment(0).y);
         ui->textEdit->append(coordinats);
-
     }
 }
 
 void CMacroWindow::on_buttonBox_accepted()
 {
-    m_Macro.saveData();
+    //m_Macro.saveData();
 }

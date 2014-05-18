@@ -16,13 +16,13 @@ class CMacroWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit CMacroWindow(QWidget *parent = 0);
+    explicit CMacroWindow(CTracking* stream, QWidget *parent = 0);
     ~CMacroWindow();
 
 private:
     Ui::CMacroWindow *ui;
     QTimer* m_Timer;
-    CTracking m_Stream;
+    CTracking* m_Stream;
     CMacro m_Macro;
 
 private slots:
