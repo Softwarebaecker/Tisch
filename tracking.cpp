@@ -77,7 +77,6 @@ bool CTracking::tracking()
     cv::vector< cv::Vec4i> hierarchy;
     cv::Point2f coordinatsTMP;
 
-    int numObjects;
     bool objectFound = false;
     double area;
 
@@ -94,9 +93,7 @@ bool CTracking::tracking()
     m_CoordinateMoment.clear();
     if(hierarchy.size() > 0)
     {
-        numObjects = hierarchy.size();
-
-        if(numObjects < 50) //überprüft, ob höchstens 50 Elemente vorhanden sind
+        if(hierarchy.size() < 50) //überprüft, ob höchstens 50 Elemente vorhanden sind
         {
             for (int index = 0; index >= 0; index = hierarchy[index][0])
             {
@@ -112,8 +109,6 @@ bool CTracking::tracking()
 
                     m_CoordinateMoment.push_back(coordinatsTMP);
                     objectFound = true;
-
-
                 }
             }
         }

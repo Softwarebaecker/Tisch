@@ -1,23 +1,34 @@
 #ifndef MOUSE_H
 #define MOUSE_H
-#include "opencv2/core/core.hpp"
-#include "QCursor"
 
+
+#include <tracking.h>
+#include <cmacro.h>
 #include "X11/Xutil.h"
 #include <X11/Xlib.h>
 #include <X11/extensions/XTest.h>
 
-class CMouse
+class CMouse : public QThread
 {
 private:
     Display* m_display;
     int m_button;
+    CTracking* m_Stream;
+    CMacro m_Macro;
+    bool m_stop;
+    QMutex m_MutexStop;
 public:
-    CMouse();
+    CMouse(CTracking* stream);
     ~CMouse();
     void setPosition(cv::Point2f);
     void click(int);
     void releaseClick();
+
+    void stop(bool);
+
+public slots:
+
+    void run();
 
 };
 

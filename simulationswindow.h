@@ -2,10 +2,7 @@
 #define SIMULATIONSWINDOW_H
 
 #include <QDialog>
-#include "tracking.h"
 #include "QTimer"
-
-#include "cmacro.h"
 #include "mouse.h"
 
 
@@ -24,15 +21,9 @@ public:
 private slots:
     void on_buttonBeenden_clicked();
 
-public slots:
-    void updateGUI();
-
 private:
     Ui::CSimulationswindow *ui;
-    QTimer* m_Timer;
-    CTracking* m_Stream;
-    CMouse m_Mouse;
-    CMacro m_Macro;
+    CMouse *m_Mouse;
 };
 
 #endif // SIMULATIONSWINDOW_H

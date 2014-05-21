@@ -4,9 +4,6 @@
 #include <QDialog>
 #include <QTimer>
 #include <tracking.h>
-
-#include "cmacro.h"
-#include "mouse.h"
 namespace Ui {
 class CPropertiesWindow;
 }
@@ -23,8 +20,6 @@ private:
     Ui::CPropertiesWindow *ui;
     QTimer* m_Timer;
     CTracking* m_Stream;
-    CMouse m_Mouse;
-    CMacro m_Macro;
 
 
 public slots:

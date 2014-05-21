@@ -46,7 +46,7 @@ void Ball::CheckCollision(Pannel * panel)
 
     int dif=m_PosRefX-pos_x;
     if(dif<20 && dif>(-20))
-    {//ball in reichweite in pannel zu berüren
+    {//ball in reichweite um pannel zu berüren
         dif=m_PosRefY-pos_y;
         if(dif<60 && dif>(-60))
         {

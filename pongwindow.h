@@ -5,7 +5,6 @@
 #include "pannel.h"
 #include "ball.h"
 #include "tracking.h"
-#include "mouse.h"
 
 namespace Ui {
 class CPongWindow;
@@ -34,7 +33,6 @@ private:
     QTimer* m_Timer;
     QTimer*  m_TimerTracking;
     QTimer* m_TimerMenue;
-    CMouse m_Mouse;
 
 
     Pannel * m_LeftPannel;
