@@ -59,6 +59,7 @@ CONFIG += link_pkgconfig\
 
 PKGCONFIG += x11
 
-OTHER_FILES +=
+OTHER_FILES += \
+    Macro.yml
 
 QMAKE_CXXFLAGS += -O1
